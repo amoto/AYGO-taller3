@@ -22,7 +22,7 @@ function Post({ posts, addPosts}) {
                         {posts.map((item, _) => (
                             <li className="list-group-item" key={item.id}>
                                 <Row>
-                                    <Col xs="7" sm="8" className={'completed'}>
+                                    <Col xs="7" sm="8" className={''}>
                                         {item.content}
                                     </Col>
                                 </Row>
