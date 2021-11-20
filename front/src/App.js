@@ -8,10 +8,9 @@ import './App.css';
 import config from './config';
 
 function App() {
-  const [alert, setAlert] = useState();
-  const [alertStyle, setAlertStyle] = useState('info');
+  const [alertStyle] = useState('info');
   const [alertVisible, setAlertVisible] = useState(false);
-  const [alertDismissable, setAlertDismissable] = useState(false);
+  const [alertDismissable] = useState(false);
   const [idToken, setIdToken] = useState('');
   const [posts, setPosts] = useState([]);
 
@@ -32,13 +31,6 @@ function App() {
 
   function onDismiss() {
     setAlertVisible(false);
-  }
-
-  function updateAlert({ alert, style, visible, dismissable }) {
-    setAlert(alert ? alert : '');
-    setAlertStyle(style ? style : 'info');
-    setAlertVisible(visible);
-    setAlertDismissable(dismissable ? dismissable : null);
   }
 
   const clearCredentials = () => {
@@ -71,7 +63,7 @@ function App() {
         Items: [
           {
             id: 0,
-            content: 'este es un post',
+            content: 'este es un post ' + Date.now(),
             created_by: 'user'
           },
           {
@@ -93,15 +85,14 @@ function App() {
     }
   };
 
-  const addPost = async (event) => {
+  const addPost = async (_) => {
     const newPostInput = document.getElementById('newPost');
     const item = newPostInput.value;
     console.log(item);
     if (!item || item === '') return;
 
-    const newPost = {
-      "item": item,
-      "completed": false
+    /*const newPost = {
+      content: item,
     };
 
     const result = await axios({
@@ -111,7 +102,10 @@ function App() {
         Authorization: idToken
       },
       data: newPost
-    });
+    });*/
+    const result = {
+      status: 200,
+    }
 
     if (result && result.status === 401) {
       clearCredentials();
@@ -121,47 +115,10 @@ function App() {
     }
   }
 
-  const deletePost = async (indexToRemove, itemId) => {
-    if (indexToRemove === null) return;
-    if (itemId === null) return;
-
-    const result = await axios({
-      method: 'DELETE',
-      url: `${config.api_base_url}/item/${itemId}`,
-      headers: {
-        Authorization: idToken
-      }
-    });
-
-    if (result && result.status === 401) {
-      clearCredentials();
-    } else if (result && result.status === 200) {
-      const newPosts = posts.filter((item, index) => index !== indexToRemove);
-      setPosts(newPosts);
-    }
-  }
-
-  const completePost = async (itemId) => {
-    if (itemId === null) return;
-
-    const result = await axios({
-      method: 'POST',
-      url: `${config.api_base_url}/item/${itemId}/done`,
-      headers: {
-        Authorization: idToken
-      }
-    });
-
-    if (result && result.status === 200) {
-      getAllPosts();
-    }
-  }
-
   return (
       <div className="App">
         <Container>
           <Alert color={alertStyle} isOpen={alertVisible} toggle={alertDismissable ? onDismiss : null}>
-            <p dangerouslySetInnerHTML={{ __html: alert }}></p>
           </Alert>
           <Jumbotron>
             <Row>
@@ -173,7 +130,7 @@ function App() {
               <Col md="6">
                 {idToken.length > 0 ?
                     (
-                        <Post updateAlert={updateAlert} posts={posts} addPost={addPost} deletePost={deletePost} completePost={completePost} />
+                        <Post posts={posts} addPost={addPost}/>
                     ) : (
                         <Button
                             href={`https://${config.cognito_hosted_domain}/login?response_type=token&client_id=${config.aws_user_pools_web_client_id}&redirect_uri=${config.redirect_url}`}
