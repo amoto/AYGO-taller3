@@ -18,6 +18,10 @@ function App() {
     getIdToken();
     if (idToken.length > 0) {
       getAllPosts();
+      const interval = setInterval(() => {
+        getAllPosts();
+      }, 2000);
+      return () => clearInterval(interval);
     }
   }, [idToken]);
 
@@ -57,25 +61,6 @@ function App() {
     }).catch(error => {
       console.log(error);
     });
-    /*const result = {
-      status: 200,
-      data: {
-        Items: [
-          {
-            id: 0,
-            content: 'este es un post ' + Date.now(),
-            created_by: 'user'
-          },
-          {
-            id: 1,
-            content: 'este otro post',
-            created_by: 'otro user'
-          }
-        ]
-      }
-    }*/
-
-    console.log(result);
 
     if (result && result.status === 401) {
       clearCredentials();
@@ -103,7 +88,6 @@ function App() {
       },
       data: newPost
     });
-    console.log(result);
 
     if (result && result.status === 401) {
       clearCredentials();
