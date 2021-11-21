@@ -85,7 +85,7 @@ function App() {
     }
   };
 
-  const addPost = async (_) => {
+  const addPosts = async (_) => {
     const newPostInput = document.getElementById('newPost');
     const item = newPostInput.value;
     console.log(item);
@@ -123,7 +123,7 @@ function App() {
               <Col md="6">
                 {idToken.length > 0 ?
                     (
-                        <Post posts={posts} addPost={addPost}/>
+                        <Post posts={posts} addPosts={addPosts}/>
                     ) : (
                         <Button
                             href={`https://${config.cognito_hosted_domain}/login?response_type=token&client_id=${config.aws_user_pools_web_client_id}&redirect_uri=${config.redirect_url}`}
