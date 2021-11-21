@@ -23,7 +23,7 @@ function Post({ posts, addPosts}) {
                             <li className="list-group-item" key={item.id}>
                                 <Row>
                                     <Col xs="7" sm="8" className={''}>
-                                        {item.content}
+                                        {item.created_by} says: {item.content}
                                     </Col>
                                 </Row>
                             </li>
