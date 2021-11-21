@@ -49,15 +49,15 @@ function App() {
   };
 
   const getAllPosts = async () => {
-    /*const result = await axios({
-      url: `${config.api_base_url}/item/`,
+    const result = await axios({
+      url: `${config.api_base_url}/post/`,
       headers: {
         Authorization: idToken
       }
     }).catch(error => {
       console.log(error);
-    });*/
-    const result = {
+    });
+    /*const result = {
       status: 200,
       data: {
         Items: [
@@ -73,7 +73,7 @@ function App() {
           }
         ]
       }
-    }
+    }*/
 
     console.log(result);
 
@@ -91,21 +91,19 @@ function App() {
     console.log(item);
     if (!item || item === '') return;
 
-    /*const newPost = {
+    const newPost = {
       content: item,
     };
 
     const result = await axios({
       method: 'POST',
-      url: `${config.api_base_url}/item/`,
+      url: `${config.api_base_url}/post/`,
       headers: {
         Authorization: idToken
       },
       data: newPost
-    });*/
-    const result = {
-      status: 200,
-    }
+    });
+    console.log(result);
 
     if (result && result.status === 401) {
       clearCredentials();
