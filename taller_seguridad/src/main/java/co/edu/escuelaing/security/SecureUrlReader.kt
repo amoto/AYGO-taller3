@@ -26,7 +26,7 @@ private fun changeSSLContext() {
     // Get the singleton instance of the TrustManagerFactory
     val tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
 
-    // Itit the TrustManagerFactory using the truststore object
+    // Init the TrustManagerFactory using the truststore object
     tmf.init(trustStore)
 
     //Set the default global SSLContext so all the connections will use it
@@ -36,6 +36,7 @@ private fun changeSSLContext() {
 }
 
 private fun readURL(s: String) {
+    println("|------- URL TO TEST -> $s -------|")
     try {
         val url = URL(s)
         val conn = url.openConnection()
@@ -45,6 +46,6 @@ private fun readURL(s: String) {
         val br = BufferedReader(InputStreamReader(conn.getInputStream()))
         br.lines().forEach { println(it) }
     } catch (ex: Exception) {
-        ex.printStackTrace()
+        println("ERROR: ${ex.localizedMessage}")
     }
 }
